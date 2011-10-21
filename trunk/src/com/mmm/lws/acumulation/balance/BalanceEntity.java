@@ -1,25 +1,21 @@
-package com.mmm.lws.acumulation.dao.balance;
+package com.mmm.lws.acumulation.balance;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.OneToMany;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.mmm.lws.acumulation.costs.CostsEntity;
 
 @Entity
-@Table(name = "balance")
-@Inheritance(strategy = InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class BalanceEntity implements Serializable {
 	private static final long serialVersionUID = 7051078210988387981L;
 
@@ -27,12 +23,9 @@ public abstract class BalanceEntity implements Serializable {
 	@GeneratedValue
 	private long id;
 	private BigDecimal amount;
-	@Column(name = "updates")
-	private String updatesJson;
+	@OneToMany(mappedBy = "balance")
+	private List<CostsEntity> updates;
 	private Date createdDate;
-
-	@Transient
-	private static Gson gson = new Gson();
 
 	public long getId() {
 		return id;
@@ -58,21 +51,18 @@ public abstract class BalanceEntity implements Serializable {
 		this.createdDate = createdDate;
 	}
 
-	public List<BigDecimal> getUpdates() {
-		List<BigDecimal> updates = gson.fromJson(updatesJson,
-				new TypeToken<List<BigDecimal>>() {
-				}.getType());
+	public List<CostsEntity> getUpdates() {
 		return updates;
 	}
 
-	public void setUpdates(List<BigDecimal> updates) {
-		updatesJson = gson.toJson(updates);
+	public void setUpdates(List<CostsEntity> updates) {
+		this.updates = updates;
 	}
 
 	@Override
 	public String toString() {
 		return "Balance [id=" + id + ", amount=" + amount + ", updatesJson="
-				+ updatesJson + ", createdDate=" + createdDate + "]";
+				+ updates.size() + ", createdDate=" + createdDate + "]";
 	}
 
 }
