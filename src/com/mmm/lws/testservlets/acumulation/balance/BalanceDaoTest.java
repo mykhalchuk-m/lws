@@ -1,8 +1,8 @@
-package com.mmm.lws.testservlets.acumulation.dao.balance;
+package com.mmm.lws.testservlets.acumulation.balance;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,11 +13,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.mmm.lws.acumulation.dao.balance.BalanceEntity;
-import com.mmm.lws.acumulation.dao.balance.DaylyBalance;
-import com.mmm.lws.acumulation.dao.balance.MonthlyBalance;
-import com.mmm.lws.acumulation.dao.balance.WeeklyBalance;
-import com.mmm.lws.acumulation.dao.balance.dao.BalanceDao;
+import com.mmm.lws.acumulation.balance.BalanceEntity;
+import com.mmm.lws.acumulation.balance.DaylyBalance;
+import com.mmm.lws.acumulation.balance.MonthlyBalance;
+import com.mmm.lws.acumulation.balance.WeeklyBalance;
+import com.mmm.lws.acumulation.balance.dao.BalanceDao;
+import com.mmm.lws.acumulation.costs.CostsEntity;
 
 /**
  * Servlet implementation class BalanceDaoTest
@@ -48,11 +49,8 @@ public class BalanceDaoTest extends HttpServlet {
 		BalanceEntity balance = new DaylyBalance();
 		balance.setAmount(BigDecimal.valueOf(1000));
 		balance.setCreatedDate(new Date(System.currentTimeMillis()));
-		List<BigDecimal> list = new ArrayList<BigDecimal>();
-		list.add(BigDecimal.valueOf(3));
-		list.add(BigDecimal.valueOf(6));
-		list.add(BigDecimal.valueOf(78));
-		list.add(BigDecimal.valueOf(0.2));
+		List<CostsEntity> list = new ArrayList<CostsEntity>();
+		list.add(createCost(BigDecimal.valueOf(100), "dayly costs"));
 		balance.setUpdates(list);
 		return balance;
 	}
@@ -61,11 +59,8 @@ public class BalanceDaoTest extends HttpServlet {
 		BalanceEntity balance = new WeeklyBalance();
 		balance.setAmount(BigDecimal.valueOf(1000));
 		balance.setCreatedDate(new Date(System.currentTimeMillis()));
-		List<BigDecimal> list = new ArrayList<BigDecimal>();
-		list.add(BigDecimal.valueOf(3));
-		list.add(BigDecimal.valueOf(6));
-		list.add(BigDecimal.valueOf(78));
-		list.add(BigDecimal.valueOf(0.2));
+		List<CostsEntity> list = new ArrayList<CostsEntity>();
+		list.add(createCost(BigDecimal.valueOf(250), "weekly costs"));
 		balance.setUpdates(list);
 		return balance;
 	}
@@ -74,13 +69,18 @@ public class BalanceDaoTest extends HttpServlet {
 		BalanceEntity balance = new MonthlyBalance();
 		balance.setAmount(BigDecimal.valueOf(1000));
 		balance.setCreatedDate(new Date(System.currentTimeMillis()));
-		List<BigDecimal> list = new ArrayList<BigDecimal>();
-		list.add(BigDecimal.valueOf(3));
-		list.add(BigDecimal.valueOf(6));
-		list.add(BigDecimal.valueOf(78));
-		list.add(BigDecimal.valueOf(0.2));
+		List<CostsEntity> list = new ArrayList<CostsEntity>();
+		list.add(createCost(BigDecimal.valueOf(1000), "monthly costs"));
 		balance.setUpdates(list);
 		return balance;
+	}
+	
+	private CostsEntity createCost(BigDecimal amount, String description) {
+		CostsEntity entity = new CostsEntity();
+		entity.setAmount(amount);
+		entity.setDate(new Date(System.currentTimeMillis()));
+		entity.setDescription(description);
+		return entity;
 	}
 
 	/**

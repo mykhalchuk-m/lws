@@ -1,10 +1,10 @@
-package com.mmm.lws.acumulation.dao.balance;
+package com.mmm.lws.acumulation.balance;
 
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.Table;
 
 @Entity
-@Table(name = "MonthlyBalance")
+@DiscriminatorValue("monthly")
 public class MonthlyBalance extends BalanceEntity {
 
 	/**
