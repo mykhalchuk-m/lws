@@ -2,8 +2,8 @@ package com.mmm.lws.testservlets.acumulation.balance;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -14,9 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.mmm.lws.acumulation.balance.BalanceEntity;
-import com.mmm.lws.acumulation.balance.DaylyBalance;
-import com.mmm.lws.acumulation.balance.MonthlyBalance;
-import com.mmm.lws.acumulation.balance.WeeklyBalance;
+import com.mmm.lws.acumulation.balance.PeriodType;
 import com.mmm.lws.acumulation.balance.dao.BalanceDao;
 import com.mmm.lws.acumulation.costs.CostsEntity;
 
@@ -46,31 +44,34 @@ public class BalanceDaoTest extends HttpServlet {
 	}
 
 	private BalanceEntity getDaylyBalance() {
-		BalanceEntity balance = new DaylyBalance();
+		BalanceEntity balance = new BalanceEntity();
 		balance.setAmount(BigDecimal.valueOf(1000));
-		balance.setCreatedDate(new Date(System.currentTimeMillis()));
+		balance.setStartDate(new Date(System.currentTimeMillis()));
 		List<CostsEntity> list = new ArrayList<CostsEntity>();
 		list.add(createCost(BigDecimal.valueOf(100), "dayly costs"));
+		balance.setPeriodType(PeriodType.DAY);
 		balance.setUpdates(list);
 		return balance;
 	}
 	
 	private BalanceEntity getWeeklyBalance() {
-		BalanceEntity balance = new WeeklyBalance();
+		BalanceEntity balance = new BalanceEntity();
 		balance.setAmount(BigDecimal.valueOf(1000));
-		balance.setCreatedDate(new Date(System.currentTimeMillis()));
+		balance.setStartDate(new Date(System.currentTimeMillis()));
 		List<CostsEntity> list = new ArrayList<CostsEntity>();
 		list.add(createCost(BigDecimal.valueOf(250), "weekly costs"));
+		balance.setPeriodType(PeriodType.WEEK);
 		balance.setUpdates(list);
 		return balance;
 	}
 	
 	private BalanceEntity getMonthlyBalance() {
-		BalanceEntity balance = new MonthlyBalance();
+		BalanceEntity balance = new BalanceEntity();
 		balance.setAmount(BigDecimal.valueOf(1000));
-		balance.setCreatedDate(new Date(System.currentTimeMillis()));
+		balance.setStartDate(new Date(System.currentTimeMillis()));
 		List<CostsEntity> list = new ArrayList<CostsEntity>();
 		list.add(createCost(BigDecimal.valueOf(1000), "monthly costs"));
+		balance.setPeriodType(PeriodType.MONTH);
 		balance.setUpdates(list);
 		return balance;
 	}
