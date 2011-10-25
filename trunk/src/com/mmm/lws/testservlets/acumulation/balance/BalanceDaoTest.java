@@ -46,7 +46,7 @@ public class BalanceDaoTest extends HttpServlet {
 	private BalanceEntity getDaylyBalance() {
 		BalanceEntity balance = new BalanceEntity();
 		balance.setAmount(BigDecimal.valueOf(1000));
-		balance.setStartDate(new Date(System.currentTimeMillis()));
+		balance.setCreatedDate(new Date(System.currentTimeMillis()));
 		List<CostsEntity> list = new ArrayList<CostsEntity>();
 		list.add(createCost(BigDecimal.valueOf(100), "dayly costs"));
 		balance.setPeriodType(PeriodType.DAY);
@@ -57,7 +57,7 @@ public class BalanceDaoTest extends HttpServlet {
 	private BalanceEntity getWeeklyBalance() {
 		BalanceEntity balance = new BalanceEntity();
 		balance.setAmount(BigDecimal.valueOf(1000));
-		balance.setStartDate(new Date(System.currentTimeMillis()));
+		balance.setCreatedDate(new Date(System.currentTimeMillis()));
 		List<CostsEntity> list = new ArrayList<CostsEntity>();
 		list.add(createCost(BigDecimal.valueOf(250), "weekly costs"));
 		balance.setPeriodType(PeriodType.WEEK);
@@ -68,7 +68,7 @@ public class BalanceDaoTest extends HttpServlet {
 	private BalanceEntity getMonthlyBalance() {
 		BalanceEntity balance = new BalanceEntity();
 		balance.setAmount(BigDecimal.valueOf(1000));
-		balance.setStartDate(new Date(System.currentTimeMillis()));
+		balance.setCreatedDate(new Date(System.currentTimeMillis()));
 		List<CostsEntity> list = new ArrayList<CostsEntity>();
 		list.add(createCost(BigDecimal.valueOf(1000), "monthly costs"));
 		balance.setPeriodType(PeriodType.MONTH);

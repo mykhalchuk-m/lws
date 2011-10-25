@@ -30,13 +30,15 @@ public class RegisterBalance {
 			@FormParam("pt") PeriodType periodType, @FormParam("sd") String date) {
 		BalanceEntity balance = new BalanceEntity();
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		Date pDate;
 		try {
-			Date pDate = sdf.parse(date);
-			balance.setStartDate(pDate);
+			pDate = sdf.parse(date);
 			balance.setNumberOfPeriod(getNumberOfPeriod(pDate, periodType));
+			balance.setPeriodYear(getYear(pDate));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
+		balance.setCreatedDate(new Date(System.currentTimeMillis()));
 		balance.setAmount(amount);
 		balance.setPeriodType(periodType);
 		balanceDao.persistBalance(balance);
@@ -55,5 +57,10 @@ public class RegisterBalance {
 		} else {
 			return 0;
 		}
+	}
+	private int getYear(Date date) { 
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		return calendar.get(Calendar.YEAR);
 	}
 }

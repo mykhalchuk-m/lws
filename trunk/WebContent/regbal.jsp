@@ -34,7 +34,7 @@
 			</select>
 		</div>
 		<div class="form-fild date">
-			<label for="sd">Date</label>
+			<label for="sd">Chose a date from destination period</label>
 			<input id="sd" name="sd" class="date-pick dp-applied" /> 
 		</div>
 		<div class="form-fild">
