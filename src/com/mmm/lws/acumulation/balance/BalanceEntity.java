@@ -29,6 +29,7 @@ public class BalanceEntity implements Serializable {
 	private Date startDate;
 	@Enumerated(EnumType.STRING)
 	private PeriodType periodType;
+	private int numberOfPeriod;
 
 	public long getId() {
 		return id;
@@ -54,12 +55,6 @@ public class BalanceEntity implements Serializable {
 		this.updates = updates;
 	}
 
-	@Override
-	public String toString() {
-		return "Balance [id=" + id + ", amount=" + amount + ", updatesJson="
-				+ updates.size() + ", createdDate=" + getStartDate() + "]";
-	}
-
 	public PeriodType getPeriodType() {
 		return periodType;
 	}
@@ -74,6 +69,14 @@ public class BalanceEntity implements Serializable {
 
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
+	}
+
+	public int getNumberOfPeriod() {
+		return numberOfPeriod;
+	}
+
+	public void setNumberOfPeriod(int numberOfPeriod) {
+		this.numberOfPeriod = numberOfPeriod;
 	}
 
 }
