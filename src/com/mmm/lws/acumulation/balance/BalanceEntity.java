@@ -26,10 +26,11 @@ public class BalanceEntity implements Serializable {
 	private BigDecimal amount;
 	@OneToMany(mappedBy = "balance")
 	private List<CostsEntity> updates;
-	private Date startDate;
+	private Date createdDate;
 	@Enumerated(EnumType.STRING)
 	private PeriodType periodType;
 	private int numberOfPeriod;
+	private int periodYear;
 
 	public long getId() {
 		return id;
@@ -63,20 +64,28 @@ public class BalanceEntity implements Serializable {
 		this.periodType = periodType;
 	}
 
-	public Date getStartDate() {
-		return startDate;
-	}
-
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
-	}
-
 	public int getNumberOfPeriod() {
 		return numberOfPeriod;
 	}
 
 	public void setNumberOfPeriod(int numberOfPeriod) {
 		this.numberOfPeriod = numberOfPeriod;
+	}
+
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public int getPeriodYear() {
+		return periodYear;
+	}
+
+	public void setPeriodYear(int periodYear) {
+		this.periodYear = periodYear;
 	}
 
 }

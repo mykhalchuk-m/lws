@@ -25,9 +25,14 @@ public class BalanceDao {
 	public void persistBalance(BalanceEntity balance) {
 		entityManager.persist(balance);
 	}
+	
+	public BalanceEntity getParentBalance(BalanceEntity balanceEntity) {
+		
+		return null;
+	}
 
 	public BalanceEntity getBalanceForPeriod(PeriodType periodType) {
-
+		
 		return null;
 	}
 
