@@ -1,6 +1,8 @@
 package com.mmm.lws.web.rest;
 
 import java.math.BigDecimal;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -11,11 +13,14 @@ import javax.ejb.Stateless;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 
 import com.mmm.lws.acumulation.balance.BalanceEntity;
 import com.mmm.lws.acumulation.balance.PeriodType;
 import com.mmm.lws.acumulation.balance.dao.BalanceDao;
+import com.mmm.lws.utils.CalendarUtils;
 
 @Path("/balance")
 @Stateless
@@ -27,14 +32,18 @@ public class RegisterBalance {
 	@POST
 	@Path("/reg")
 	public Response registerBalance(@FormParam("am") BigDecimal amount,
-			@FormParam("pt") PeriodType periodType, @FormParam("sd") String date) {
+			@FormParam("pt") PeriodType periodType,
+			@FormParam("sd") String date, @Context HttpHeaders headers)
+			throws URISyntaxException {
 		BalanceEntity balance = new BalanceEntity();
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		Date pDate;
 		try {
 			pDate = sdf.parse(date);
-			balance.setNumberOfPeriod(getNumberOfPeriod(pDate, periodType));
-			balance.setPeriodYear(getYear(pDate));
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(pDate);
+			balance.setNumberOfPeriod(CalendarUtils.getPeriodNumber(calendar, periodType));
+			balance.setPeriodYear(calendar.get(Calendar.YEAR));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -42,25 +51,7 @@ public class RegisterBalance {
 		balance.setAmount(amount);
 		balance.setPeriodType(periodType);
 		balanceDao.persistBalance(balance);
-		return Response.status(200).entity("Saved").build();
-	}
-	
-	private int getNumberOfPeriod(Date date, PeriodType periodType) {
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(date);
-		if (periodType.equals(PeriodType.DAY)) {
-			return calendar.get(Calendar.DAY_OF_YEAR);
-		} else if (periodType.equals(PeriodType.WEEK)) {
-			return calendar.get(Calendar.WEEK_OF_YEAR);
-		} else if (periodType.equals(PeriodType.MONTH)) {
-			return calendar.get(Calendar.MONTH);
-		} else {
-			return 0;
-		}
-	}
-	private int getYear(Date date) { 
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(date);
-		return calendar.get(Calendar.YEAR);
+		return Response.temporaryRedirect(
+				new URI(headers.getRequestHeader("Referer").get(0))).build();
 	}
 }
