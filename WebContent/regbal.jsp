@@ -1,4 +1,4 @@
-<%@page import="com.mmm.lws.acumulation.balance.PeriodType"%>
+<%@ page import="com.mmm.lws.acumulation.balance.PeriodType"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -19,13 +19,12 @@
 <title>Add balance</title>
 </head>
 <body>
+	<div class="body">
 	<%
 		pageContext.setAttribute("pts", PeriodType.values());
 	%>
-	<form method="post" action="/lws/rest/balance/reg">
-		<div class="form-fild">
-			<label for="am">Amount</label><input name="am" />
-		</div>
+	<jsp:include page="menu.jsp"/>
+	<form method="post" action="/lws/rest/balance/reg" class="form">
 		<div class="form-fild">
 			<label for="pt">Period</label> <select name="pt">
 				<c:forEach items="${pts}" var="pt">
@@ -38,8 +37,12 @@
 			<input id="sd" name="sd" class="date-pick dp-applied" /> 
 		</div>
 		<div class="form-fild">
-			<input name="Register" type="submit" />
+			<label for="am">Amount</label><input name="am" />
+		</div>
+		<div class="form-fild">
+			<input name="Register" type="submit" value="register"/>
 		</div>
 	</form>
+	</div>
 </body>
 </html>

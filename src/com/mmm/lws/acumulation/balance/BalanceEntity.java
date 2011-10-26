@@ -88,4 +88,11 @@ public class BalanceEntity implements Serializable {
 		this.periodYear = periodYear;
 	}
 
+	@Override
+	public String toString() {
+		return "BalanceEntity [amount=" + amount + ", periodType=" + periodType
+				+ ", numberOfPeriod=" + numberOfPeriod + ", periodYear="
+				+ periodYear + "]";
+	}
+
 }
