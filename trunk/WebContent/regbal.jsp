@@ -22,6 +22,7 @@
 	<div class="body">
 	<%
 		pageContext.setAttribute("pts", PeriodType.values());
+		getServletContext().setAttribute("reqPage",  "/lws/regbal.jsp");
 	%>
 	<jsp:include page="menu.jsp"/>
 	<form method="post" action="/lws/rest/balance/reg" class="form">

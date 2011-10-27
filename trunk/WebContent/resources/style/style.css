@@ -17,12 +17,12 @@ div.form-fild {
 }
 
 div.form-fild select,div.form-fild input {
-	width: 115px;
+	width: 50%;
 }
 
 div.form-fild label {
 	float: left;
-	width: 110px;
+	width: 47%;
 }
 
 div.date {

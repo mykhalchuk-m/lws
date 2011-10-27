@@ -1,6 +1,9 @@
 package com.mmm.lws.utils;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import com.mmm.lws.acumulation.balance.BalanceEntity;
 import com.mmm.lws.acumulation.balance.PeriodType;
@@ -43,6 +46,11 @@ public class CalendarUtils {
 			dps.nuberOfPeriod = calendar.get(Calendar.MONTH);
 		}
 		return dps;
+	}
+	
+	public static Date convertStringToDate(String strDate) throws ParseException {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		return sdf.parse(strDate);
 	}
 	
 	public static int getPeriodNumber(Calendar calendar, PeriodType periodType) {
