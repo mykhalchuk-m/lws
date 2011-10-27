@@ -26,37 +26,51 @@
 	<jsp:include page="menu.jsp"/>
 	<form action="/lws/rest/costs/add" method="post" class="form">
 		<div class="form-fild">
-			<label>amount</label> <input name="am" />
-		</div>
-		<div class="form-fild">
-			<label>description</label> <input name="des" />
-		</div>
-		<div class="form-fild">
-			<label>is now?</label> <input type="checkbox" name="now" id="isNow" />
-		</div>
-		<div id="date" class="form-fild date">
-			<label>date</label> <input name="date" class="date-pick dp-applied" />
-		</div>
-		<div class="form-fild">
-			<label for="pt">Period</label> <select name="pt">
+			<label for="pt">Period</label> <select name="pt" id="period">
 				<c:forEach items="${pts}" var="pt">
 					<option value="${pt}">${pt}</option>
 				</c:forEach>
 			</select>
 		</div>
 		<div class="form-fild">
+			<label>is now?</label> <input type="checkbox" name="now" id="isNow" checked="checked" />
+		</div>
+		<div id="date" class="form-fild date" style="display: none;">
+			<label>date</label> <input name="date" class="date-pick dp-applied" />
+		</div>
+		<div id="message" class="form-fild" style="display: none;"></div>
+		<div class="form-fild">
+			<label>amount</label> <input name="am" />
+		</div>
+		<div class="form-fild">
+			<label>description</label> <input name="des" />
+		</div>
+		<div class="form-fild">
 			<input type="submit" value="add" />
 		</div>
 	</form>
 	<script type="text/javascript">
-		document.getElementById("isNow").onclick = function() {
-			var date = document.getElementById("date");
-			if (this.checked) {
-				date.style.display = "none";
-			} else {
-				date.style.display = "block";
-			}
-		}
+		$(document).ready(function() {
+			$("#isNow").click(function() {
+				if ($(this).is(":checked")) {
+					$("#date").css("display", "none");
+				} else {
+					$("#date").css("display", "block");
+
+				};
+			});
+			$("#period").change(function(){
+				if($("#isNow").is(":checked")) {
+					loadBalance(null, $("#period option:selected").text());
+				}							
+			}).change();
+		});
+		
+		var loadBalance = function(data, typePeriod) {
+			$("#message").load(
+					"/lws/rest/balance/grb?d=" + data + "&tp=" + typePeriod);
+			$("#message").css("display", "block");
+		};
 	</script>
 	</div>
 </body>

@@ -1,18 +1,16 @@
 package com.mmm.lws.calculation.period;
 
-import javax.ejb.LocalBean;
-import javax.ejb.Stateful;
+import java.util.Date;
 
-import com.mmm.lws.acumulation.balance.BalanceEntity;
+import javax.ejb.Stateless;
+
 import com.mmm.lws.acumulation.balance.PeriodType;
 
-@Stateful
-@LocalBean
-public class Week extends Period {
-	
-	public Week() {
-		balance = new BalanceEntity();
-		balance.setPeriodType(PeriodType.WEEK);
+@Stateless
+public class Week extends AbstractPeriod implements Period {
+
+	public Week(Date date) {
+		init(date, PeriodType.WEEK);
 	}
-	
+
 }
