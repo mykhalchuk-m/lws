@@ -30,7 +30,6 @@ public class BalanceDao {
 
 	public BalanceEntity getBalance(PeriodType periodType, int periodNumber,
 			int year) {
-		System.out.println("DAO ++++ " + periodType + " ++++ " + periodNumber + " ++++ " + year);
 		Query query = entityManager
 				.createQuery("from BalanceEntity be where be.numberOfPeriod=:np and be.periodType=:pt and be.periodYear=:py");
 		query.setParameter("np", periodNumber);
