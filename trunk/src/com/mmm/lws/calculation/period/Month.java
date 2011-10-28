@@ -1,16 +1,14 @@
 package com.mmm.lws.calculation.period;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
-import com.mmm.lws.acumulation.balance.PeriodType;
 
 @Stateless
-public class Month extends AbstractPeriod implements Period {
-
-	public Month(Date date) {
-		init(date, PeriodType.MONTH);
-	}
-
+@LocalBean
+public class Month {
+	public BigDecimal getRealBalannce(Date date) {return new BigDecimal(0);}
 }

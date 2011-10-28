@@ -24,7 +24,6 @@ import com.mmm.lws.acumulation.balance.PeriodType;
 import com.mmm.lws.acumulation.balance.dao.BalanceDao;
 import com.mmm.lws.calculation.period.Day;
 import com.mmm.lws.calculation.period.Month;
-import com.mmm.lws.calculation.period.Period;
 import com.mmm.lws.calculation.period.Week;
 import com.mmm.lws.utils.CalendarUtils;
 
@@ -32,8 +31,11 @@ import com.mmm.lws.utils.CalendarUtils;
 @Stateless
 public class RegisterBalance {
 
-	@EJB
-	private BalanceDao balanceDao;
+	@EJB private BalanceDao balanceDao;
+	@EJB private Day day;
+	@EJB private Week week;
+	@EJB private Month month;
+	
 	@Context
 	private ServletContext context;
 
@@ -75,7 +77,6 @@ public class RegisterBalance {
 	@Path("/grb")
 	public Response getRealBalance(@QueryParam("d") String destDate,
 			@QueryParam("tp") PeriodType periodType) {
-		System.out.println("------------------------" + destDate + " ----------- " + periodType);
 		Date date = new Date();
 		date.setTime(System.currentTimeMillis());
 		try {
@@ -83,21 +84,17 @@ public class RegisterBalance {
 		} catch (ParseException e) {
 			System.out.println("Retriving balance for current period");
 		}
-		System.out.println("------------------------ " + date);
-		Period period = getPeriodByPeriodType(periodType, date);
-		System.out.println("------------------------ " + period);
-		BigDecimal realAmount = period.calculateRealAmound();
-		System.out.println("------------------------" + realAmount);
-		return Response.status(200).entity(realAmount).build();
+		BigDecimal realAmount = getRealBalanceForPeriod(periodType, date);
+		return Response.status(200).entity(realAmount.toString()).build();
 	}
 
-	private Period getPeriodByPeriodType(PeriodType periodType, Date date) {
-		if (periodType.equals(PeriodType.DAY)) {
-			return new Day(date);
-		} else if (periodType.equals(PeriodType.WEEK)) {
-			return new Week(date);
+	private BigDecimal getRealBalanceForPeriod(PeriodType periodType, Date date) {
+		if (periodType == PeriodType.DAY) {
+			return day.getRealBalannce(date);
+		} else if (periodType == PeriodType.WEEK) {
+			return week.getRealBalannce(date);
 		} else {
-			return new Month(date);
+			return month.getRealBalannce(date);
 		}
 	}
 }

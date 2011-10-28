@@ -1,16 +1,13 @@
 package com.mmm.lws.calculation.period;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
-import com.mmm.lws.acumulation.balance.PeriodType;
-
 @Stateless
-public class Week extends AbstractPeriod implements Period {
-
-	public Week(Date date) {
-		init(date, PeriodType.WEEK);
-	}
-
+@LocalBean
+public class Week {
+	public BigDecimal getRealBalannce(Date date) {return new BigDecimal(0);}
 }
