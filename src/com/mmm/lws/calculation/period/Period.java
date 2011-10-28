@@ -26,6 +26,9 @@ public class Period {
 	}
 	
 	public BigDecimal calculateRealAmound() {
+		if (planedBalance == null) {
+			return null;
+		}
 		BigDecimal realAmound = planedBalance.getAmount();
 		for (CostsEntity ce : planedBalance.getUpdates()) {
 			realAmound = realAmound.subtract(ce.getAmount());

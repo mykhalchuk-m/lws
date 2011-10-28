@@ -1,7 +1,5 @@
 package com.mmm.lws.acumulation.balance.dao;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import javax.ejb.LocalBean;
@@ -14,7 +12,6 @@ import javax.persistence.Query;
 
 import com.mmm.lws.acumulation.balance.BalanceEntity;
 import com.mmm.lws.acumulation.balance.PeriodType;
-import com.mmm.lws.utils.CalendarUtils;
 
 @Stateless
 @LocalBean
@@ -41,35 +38,6 @@ public class BalanceDao {
 		} else {
 			return null;
 		}
-	}
-
-	public BalanceEntity getParentBalance(BalanceEntity balance) {
-		Calendar calendar = Calendar.getInstance();
-		calendar = CalendarUtils.getStartPeriodDate(balance);
-		CalendarUtils.DatePeriodStruct dps = CalendarUtils.getParentPeriod(
-				calendar, balance);
-		Query query = entityManager
-				.createQuery("from BalanceEntity be where be.numberOfPeriod=:np and be.periodType=:pt and be.periodYear=:py");
-		query.setParameter("np", dps.nuberOfPeriod);
-		query.setParameter("pt", dps.periodType);
-		query.setParameter("py", balance.getPeriodYear());
-		BalanceEntity be = (BalanceEntity) query.getSingleResult();
-		return be;
-	}
-
-	public BalanceEntity getBalanceForPeriod(PeriodType periodType) {
-
-		return null;
-	}
-
-	public BalanceEntity getBalanceForPeriod(Date forDate, PeriodType periodType) {
-		if (periodType == PeriodType.DAY) {
-			// Query query = entityManager
-			// .createQuery("from BalanceEntity be where be.startDate>=:startDate and be.startDate<=:endDate");
-			// query.setParameter("startDate", getStartDay(forDate));
-			// query.setParameter("endDate", getEndDay(forDate));
-		}
-		return null;
 	}
 
 }
