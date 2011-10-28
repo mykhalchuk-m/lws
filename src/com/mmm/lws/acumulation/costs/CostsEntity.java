@@ -3,6 +3,7 @@ package com.mmm.lws.acumulation.costs;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Basic;
 import javax.persistence.Entity;
@@ -13,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -36,7 +38,7 @@ public class CostsEntity implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date date;
 	@ManyToOne
-	@JoinColumn(name="balance_fk")
+	@JoinColumn(name = "balance_fk")
 	private BalanceEntity balance;
 
 	public long getId() {
@@ -77,5 +79,22 @@ public class CostsEntity implements Serializable {
 
 	public void setBalance(BalanceEntity balance) {
 		this.balance = balance;
+	}
+
+	@SuppressWarnings("unused")
+	@PrePersist
+	private void onPrePersist() {
+		System.out.println(this.getBalance());
+		if (balance != null) {
+			BigDecimal amount = balance.getAmount();
+			List<CostsEntity> costs = balance.getUpdates();
+			if (costs != null && costs.size() > 0) {
+				for (CostsEntity cost : costs) {
+					amount = amount.subtract(cost.amount);
+				}
+			}
+			amount = amount.subtract(this.getAmount());
+			balance.setAmountLest(amount);
+		}
 	}
 }

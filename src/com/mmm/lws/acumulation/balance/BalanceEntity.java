@@ -31,6 +31,7 @@ public class BalanceEntity implements Serializable {
 	private PeriodType periodType;
 	private int numberOfPeriod;
 	private int periodYear;
+	private BigDecimal amountLest;
 
 	public long getId() {
 		return id;
@@ -88,11 +89,19 @@ public class BalanceEntity implements Serializable {
 		this.periodYear = periodYear;
 	}
 
+	public BigDecimal getAmountLest() {
+		return amountLest;
+	}
+
+	public void setAmountLest(BigDecimal amountLest) {
+		this.amountLest = amountLest;
+	}
+	
 	@Override
 	public String toString() {
 		return "BalanceEntity [amount=" + amount + ", periodType=" + periodType
 				+ ", numberOfPeriod=" + numberOfPeriod + ", periodYear="
 				+ periodYear + "]";
 	}
-
+	
 }
