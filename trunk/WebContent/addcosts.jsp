@@ -26,7 +26,8 @@
 	<jsp:include page="menu.jsp"/>
 	<form action="/lws/rest/costs/add" method="post" class="form">
 		<div class="form-fild">
-			<label for="pt">Period</label> <select name="pt" id="period">
+			<label for="pt">Period</label> 
+			<select name="pt" id="period">
 				<c:forEach items="${pts}" var="pt">
 					<option value="${pt}">${pt}</option>
 				</c:forEach>
@@ -60,10 +61,11 @@
 				};
 			});
 			$("#period").change(function(){
-				if($("#isNow").is(":checked")) {
-					loadBalance(null, $("#period option:selected").text());
-				}							
+				loadBalance($(".date-pick").val(), $("#period option:selected").text());
 			}).change();
+			$(".date-pick").change(function(){
+				loadBalance($(".date-pick").val(), $("#period option:selected").text());
+			});
 		});
 		
 		var loadBalance = function(data, typePeriod) {

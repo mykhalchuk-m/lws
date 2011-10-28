@@ -31,11 +31,15 @@ import com.mmm.lws.utils.CalendarUtils;
 @Stateless
 public class RegisterBalance {
 
-	@EJB private BalanceDao balanceDao;
-	@EJB private Day day;
-	@EJB private Week week;
-	@EJB private Month month;
-	
+	@EJB
+	private BalanceDao balanceDao;
+	@EJB
+	private Day day;
+	@EJB
+	private Week week;
+	@EJB
+	private Month month;
+
 	@Context
 	private ServletContext context;
 
@@ -84,17 +88,48 @@ public class RegisterBalance {
 		} catch (ParseException e) {
 			System.out.println("Retriving balance for current period");
 		}
-		BigDecimal realAmount = getRealBalanceForPeriod(periodType, date);
-		return Response.status(200).entity(realAmount.toString()).build();
+		String resp = buildResponce(periodType, date);
+		System.out.println(this.getClass().getName() + resp);
+		return Response.status(200).entity(resp).build();
 	}
 
-	private BigDecimal getRealBalanceForPeriod(PeriodType periodType, Date date) {
+	private String buildResponce(PeriodType periodType, Date date) {
+		StringBuilder resp = new StringBuilder();
+		resp.append("<span>Your current balance for this </span>");
+		resp.append(periodType.toString().toLowerCase());
+		BigDecimal bd1 = day.getRealBalannce(date);
+		BigDecimal bd2 = week.getRealBalannce(date);
+		BigDecimal bd3 = month.getRealBalannce(date);
+		resp.append("<ul>");
 		if (periodType == PeriodType.DAY) {
-			return day.getRealBalannce(date);
+			resp.append("<li>");
+			resp.append("<span>for day: </span>");
+			resp.append((bd1 == null) ? "-" : bd1);
+			resp.append("</li>");
+			resp.append("<li>");
+			resp.append("<span>for week: </span>");
+			resp.append((bd2 == null) ? "-" : bd2);
+			resp.append("</li>");
+			resp.append("<li>");
+			resp.append("<span>for month: </span>");
+			resp.append((bd3 == null) ? "-" : bd3);
+			resp.append("</li>");
 		} else if (periodType == PeriodType.WEEK) {
-			return week.getRealBalannce(date);
+			resp.append("<li>");
+			resp.append("<span>for week: </span>");
+			resp.append((bd2 == null) ? "-" : bd2);
+			resp.append("</li>");
+			resp.append("<li>");
+			resp.append("<span>for month: </span>");
+			resp.append((bd3 == null) ? "-" : bd3);
+			resp.append("</li>");
 		} else {
-			return month.getRealBalannce(date);
+			resp.append("<li>");
+			resp.append("<span>for month: </span>");
+			resp.append((bd3 == null) ? "-" : bd3);
+			resp.append("</li>");
 		}
+		resp.append("</ul>");
+		return resp.toString();
 	}
 }

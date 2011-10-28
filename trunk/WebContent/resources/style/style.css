@@ -25,6 +25,14 @@ div.form-fild label {
 	width: 47%;
 }
 
+#message {
+	font-weight: bold;
+}
+
+#message span {
+	font-weight: normal;
+}
+
 div.date {
 	overflow: hidden;
 }

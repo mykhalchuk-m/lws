@@ -34,20 +34,6 @@ public class CalendarUtils {
 		return calendar;
 	}
 	
-	public static DatePeriodStruct getParentPeriod(Calendar calendar,
-			BalanceEntity balance) {
-		PeriodType periodType = balance.getPeriodType();
-		DatePeriodStruct dps = new DatePeriodStruct();
-		if (periodType.equals(PeriodType.DAY)) {
-			dps.periodType = PeriodType.WEEK;
-			dps.nuberOfPeriod = calendar.get(Calendar.WEEK_OF_YEAR);
-		} else if (periodType.equals(PeriodType.WEEK)) {
-			dps.periodType = PeriodType.MONTH;
-			dps.nuberOfPeriod = calendar.get(Calendar.MONTH);
-		}
-		return dps;
-	}
-	
 	public static Date convertStringToDate(String strDate) throws ParseException {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		return sdf.parse(strDate);
@@ -63,11 +49,4 @@ public class CalendarUtils {
 		}
 		return 0;
 	}	
-	
-	public static class DatePeriodStruct {
-		public int nuberOfPeriod;
-		public PeriodType periodType;
-	}
-	
-	
 }
