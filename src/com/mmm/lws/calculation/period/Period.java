@@ -3,19 +3,29 @@ package com.mmm.lws.calculation.period;
 import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import com.mmm.lws.acumulation.balance.BalanceEntity;
 import com.mmm.lws.acumulation.balance.PeriodType;
 import com.mmm.lws.acumulation.balance.dao.BalanceDao;
 import com.mmm.lws.acumulation.costs.CostsEntity;
+import com.mmm.lws.acumulation.costs.dao.CostsDao;
 import com.mmm.lws.utils.CalendarUtils;
 
 public class Period {
-	private BalanceEntity planedBalance;
+	private BalanceEntity balance;
 	private BalanceDao balanceDao;
+	private CostsDao costsDao;
 	
-	public Period(BalanceDao balanceDao) {
+	public void setCostsDao(CostsDao costsDao) {
+		this.costsDao = costsDao;
+	}
+	
+	public void setBalanceDao(BalanceDao balanceDao) {
 		this.balanceDao = balanceDao;
+	}
+	
+	public Period() {
 		Date date = new Date(System.currentTimeMillis());
 		init(date, PeriodType.DAY);
 	}
@@ -25,28 +35,32 @@ public class Period {
 		init(date, periodType);
 	}
 	
-	public BigDecimal calculateRealAmound() {
-		if (planedBalance == null) {
-			return null;
-		}
-		BigDecimal realAmound = planedBalance.getAmount();
-		for (CostsEntity ce : planedBalance.getUpdates()) {
-			realAmound = realAmound.subtract(ce.getAmount());
-		}
-		return realAmound;
-	}
-
 	public void init(Date date, PeriodType periodType) {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
 		int periodNumber = CalendarUtils.getPeriodNumber(calendar, periodType);
-		planedBalance = balanceDao.getBalance(periodType, periodNumber,
+		balance = balanceDao.getBalance(periodType, periodNumber,
 				calendar.get(Calendar.YEAR));
 	}
-
+	
+	public BigDecimal calculateSpendedMoney(PeriodType periodType, Date date) {
+		Date startDate = CalendarUtils.getStartPeriodDate(periodType, date).getTime();
+		Date endDate = CalendarUtils.getEndPeriodDate(periodType, date).getTime();
+		List<CostsEntity> costs = costsDao.getCostsByPeriod(startDate, endDate);
+		BigDecimal res = new BigDecimal(0);
+		for (CostsEntity cost : costs) {
+			res = res.add(cost.getAmount());
+		}
+		return res;
+	}
+	
+	public BalanceEntity getBalance() {
+		return balance;
+	}
+	
 	@Override
 	public String toString() {
-		return "Period [" + planedBalance.getPeriodType() + "]";
+		return "Period [" + balance.getPeriodType() + "]";
 	}
 
 }

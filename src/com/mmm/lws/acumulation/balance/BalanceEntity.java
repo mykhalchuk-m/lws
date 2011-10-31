@@ -12,6 +12,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.mmm.lws.acumulation.costs.CostsEntity;
 
@@ -26,6 +28,7 @@ public class BalanceEntity implements Serializable {
 	private BigDecimal amount;
 	@OneToMany(mappedBy = "balance")
 	private List<CostsEntity> updates;
+	@Temporal(TemporalType.DATE)
 	private Date createdDate;
 	@Enumerated(EnumType.STRING)
 	private PeriodType periodType;

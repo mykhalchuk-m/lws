@@ -89,7 +89,6 @@ public class RegisterBalance {
 			System.out.println("Retriving balance for current period");
 		}
 		String resp = buildResponce(periodType, date);
-		System.out.println(this.getClass().getName() + resp);
 		return Response.status(200).entity(resp).build();
 	}
 

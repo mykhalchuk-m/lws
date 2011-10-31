@@ -5,33 +5,35 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import com.mmm.lws.acumulation.balance.BalanceEntity;
 import com.mmm.lws.acumulation.balance.PeriodType;
 
 public class CalendarUtils {
-	public static Calendar getStartPeriodDate(PeriodType periodType, int year,
-			int numOfPeriod) {
+	public static Calendar getStartPeriodDate(PeriodType periodType, Date date) {
+		Calendar currDate = Calendar.getInstance();
+		currDate.setTime(date);
 		Calendar calendar = Calendar.getInstance();
-		calendar.set(Calendar.YEAR, year);
+		calendar.set(Calendar.YEAR, currDate.get(Calendar.YEAR));
 		if (periodType.equals(PeriodType.DAY)) {
-			calendar.set(Calendar.DAY_OF_YEAR, numOfPeriod);
+			calendar.set(Calendar.DAY_OF_YEAR, currDate.get(Calendar.DAY_OF_YEAR));
 		} else if (periodType.equals(PeriodType.WEEK)) {
-			calendar.set(Calendar.WEEK_OF_YEAR, numOfPeriod);
+			calendar.set(Calendar.WEEK_OF_YEAR, currDate.get(Calendar.WEEK_OF_YEAR));
 			calendar.set(Calendar.DAY_OF_WEEK, 1);
 		} else if (periodType.equals(PeriodType.MONTH)) {
-			calendar.set(Calendar.MONTH, numOfPeriod);
+			calendar.set(Calendar.MONTH, currDate.get(Calendar.MONTH));
 			calendar.set(Calendar.DAY_OF_MONTH, 1);
 		}
-		calendar.set(Calendar.HOUR_OF_DAY, 0);
-		calendar.set(Calendar.MINUTE, 0);
-		calendar.set(Calendar.SECOND, 0);
 		return calendar;
 	}
 
-	public static Calendar getStartPeriodDate(BalanceEntity balance) {
-		Calendar calendar = getStartPeriodDate(balance.getPeriodType(),
-				balance.getPeriodYear(), balance.getNumberOfPeriod());
-		return calendar;
+	public static Calendar getEndPeriodDate(PeriodType periodType, Date date) {
+		Calendar startDate = getStartPeriodDate(periodType, date);
+		Calendar endDare = startDate;
+		if (periodType.equals(PeriodType.WEEK)) {
+			endDare.set(Calendar.WEEK_OF_YEAR, startDate.get(Calendar.WEEK_OF_YEAR) + 1);
+		} else if (periodType.equals(PeriodType.MONTH)) {
+			endDare.set(Calendar.MONTH, startDate.get(Calendar.MONTH) + 1);
+		}
+		return endDare;
 	}
 	
 	public static Date convertStringToDate(String strDate) throws ParseException {
