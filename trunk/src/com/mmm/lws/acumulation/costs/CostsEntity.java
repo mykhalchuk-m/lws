@@ -35,7 +35,7 @@ public class CostsEntity implements Serializable {
 	private BigDecimal amount;
 	private String description;
 	@Basic
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.DATE)
 	private Date date;
 	@ManyToOne
 	@JoinColumn(name = "balance_fk")
@@ -84,9 +84,11 @@ public class CostsEntity implements Serializable {
 	@SuppressWarnings("unused")
 	@PrePersist
 	private void onPrePersist() {
-		System.out.println(this.getBalance());
 		if (balance != null) {
 			BigDecimal amount = balance.getAmount();
+			if (amount == null) {
+				amount = new BigDecimal(0);
+			}
 			List<CostsEntity> costs = balance.getUpdates();
 			if (costs != null && costs.size() > 0) {
 				for (CostsEntity cost : costs) {
