@@ -5,45 +5,45 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
-<script type="text/javascript" src="resources/js/jquery.datePicker.js"></script>
-<script type="text/javascript" src="resources/js/date.js"></script>
-<link rel="stylesheet" type="text/css" media="screen" href="resources/style/datePicker.css">
+<jsp:include page="header-include.jsp">
+	<jsp:param value="Add balance" name="title"/>
+</jsp:include>
 <script type="text/javascript">
       $(function() {
           $('.date-pick').datePicker({autoFocusNextInput: true});            
       });		
 </script>
-<link rel="stylesheet" type="text/css" media="screen" href="resources/style/style.css">
-<title>Add balance</title>
 </head>
 <body>
-	<div class="body">
+	<div class="wrapper">
 	<%
 		pageContext.setAttribute("pts", PeriodType.values());
 		getServletContext().setAttribute("reqPage",  "/lws/regbal.jsp");
 	%>
-	<jsp:include page="menu.jsp"/>
-	<form method="post" action="/lws/rest/balance/reg" class="form">
-		<div class="form-fild">
-			<label for="pt">Period</label> <select name="pt">
-				<c:forEach items="${pts}" var="pt">
-					<option value="${pt}">${pt}</option>
-				</c:forEach>
-			</select>
+	<jsp:include page="header.jsp"/>
+		<div class="container">
+		<jsp:include page="menu.jsp"/>
+		<form method="post" action="/lws/rest/balance/reg" class="form">
+			<div class="form-fild">
+				<label for="pt">Period</label> <select name="pt">
+					<c:forEach items="${pts}" var="pt">
+						<option value="${pt}">${pt}</option>
+					</c:forEach>
+				</select>
+			</div>
+			<div class="form-fild date">
+				<label for="sd">Chose a date from destination period</label>
+				<input id="sd" name="sd" class="date-pick dp-applied" /> 
+			</div>
+			<div class="form-fild">
+				<label for="am">Amount</label><input name="am" />
+			</div>
+			<div class="form-fild">
+				<input name="Register" type="submit" value="register"/>
+			</div>
+		</form>
 		</div>
-		<div class="form-fild date">
-			<label for="sd">Chose a date from destination period</label>
-			<input id="sd" name="sd" class="date-pick dp-applied" /> 
-		</div>
-		<div class="form-fild">
-			<label for="am">Amount</label><input name="am" />
-		</div>
-		<div class="form-fild">
-			<input name="Register" type="submit" value="register"/>
-		</div>
-	</form>
+	<jsp:include page="footer.jsp"/>
 	</div>
 </body>
 </html>

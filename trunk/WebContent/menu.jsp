@@ -1,6 +1,7 @@
-<div class="menu-container">
-	<ul class="menu">
-		<li class="menu-item"><a href="/lws/regbal.jsp">register balance</a></li>
-		<li class="menu-item"><a href="/lws/addcosts.jsp">add costs</a></li>
+<div class="sidebar">
+	<ul class="menu" id="main-menu">
+		<li><a href="index.jsp">Start page</a></li>
+		<li><a href="regbal.jsp">Register balance</a></li>
+		<li><a href="addcosts.jsp">Add costs</a></li>
 	</ul>
 </div>
