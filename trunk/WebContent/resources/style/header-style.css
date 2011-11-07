@@ -23,6 +23,13 @@
 	list-style: none;
 }
 
+.header .logo {
+	height: 100px;
+	width: 300px;
+	background: url(../img/logo.png) 0 0 no-repeat;
+	float: left;
+}
+
 .header .lang li {
 	float: left;
 }
