@@ -4,7 +4,7 @@
 	</div>
 	<div class="headerBox">
 		<div class="headerBox">
-			<a class="logo"></a>
+			<a class="logo" href="/lws"></a>
 			<ul class="lang">
 				<li><a class="langEN" href="#">EN</a></li>
 				<li><a class="langUA" href="#">UA</a></li>
