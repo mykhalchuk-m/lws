@@ -17,7 +17,6 @@
 				<h4>LWS</h4>
 			</div>
 		</div>
-		<div class="hFooter"></div>
 		<jsp:include page="footer.jsp"/>
 	</div>
 </body>
