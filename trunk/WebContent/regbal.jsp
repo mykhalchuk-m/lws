@@ -2,8 +2,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <jsp:include page="header-include.jsp">
 	<jsp:param value="Add balance" name="title"/>
@@ -39,11 +39,11 @@
 				<label for="am">Amount</label><input name="am" />
 			</div>
 			<div class="form-fild">
-				<input name="Register" type="submit" value="register"/>
+				<input name="Register" type="submit" value="Register"/>
 			</div>
 		</form>
 		</div>
-	<jsp:include page="footer.jsp"/>
 	</div>
+	<jsp:include page="footer.jsp"/>
 </body>
 </html>
