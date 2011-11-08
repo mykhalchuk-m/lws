@@ -8,6 +8,7 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 
 import com.mmm.lws.acumulation.balance.BalanceEntity;
@@ -21,7 +22,7 @@ public class BalanceDao {
 	@PersistenceContext(name = "lws-core")
 	private EntityManager entityManager;
 
-	public void persistBalance(BalanceEntity balance) {
+	public void persistBalance(BalanceEntity balance) throws PersistenceException{
 		entityManager.persist(balance);
 	}
 
@@ -38,6 +39,10 @@ public class BalanceDao {
 		} else {
 			return null;
 		}
+	}
+	
+	public List<BalanceEntity> getAllBalances() {
+		return null;
 	}
 
 }

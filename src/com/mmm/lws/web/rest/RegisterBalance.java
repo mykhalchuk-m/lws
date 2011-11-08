@@ -2,14 +2,15 @@ package com.mmm.lws.web.rest;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.net.URISyntaxException;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.persistence.PersistenceException;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -47,8 +48,9 @@ public class RegisterBalance {
 	@Path("/reg")
 	public Response registerBalance(@FormParam("am") BigDecimal amount,
 			@FormParam("pt") PeriodType periodType,
-			@FormParam("sd") String date, @Context HttpServletResponse response)
-			throws URISyntaxException {
+			@FormParam("sd") String date,
+			@Context HttpServletResponse response,
+			@Context HttpServletRequest request) {
 		BalanceEntity balance = new BalanceEntity();
 		Date pDate;
 		try {
@@ -59,12 +61,18 @@ public class RegisterBalance {
 					periodType));
 			balance.setPeriodYear(calendar.get(Calendar.YEAR));
 		} catch (ParseException e) {
+			redirectToError(e, response, request);
 			e.printStackTrace();
 		}
 		balance.setCreatedDate(new Date(System.currentTimeMillis()));
 		balance.setAmount(amount);
 		balance.setPeriodType(periodType);
-		balanceDao.persistBalance(balance);
+		try {
+			balanceDao.persistBalance(balance);
+//			throw new PersistenceException("test exception");
+		} catch (PersistenceException e) {
+			redirectToError(e, response, request);
+		}
 		String reqPage = context.getAttribute("reqPage").toString();
 		if (reqPage == null || reqPage == "") {
 			reqPage = "/lws/index.jsp";
@@ -90,6 +98,16 @@ public class RegisterBalance {
 		}
 		String resp = buildResponce(periodType, date);
 		return Response.status(200).entity(resp).build();
+	}
+
+	private void redirectToError(Exception e, HttpServletResponse response,
+			HttpServletRequest request) {
+		try {
+			request.setAttribute("exception", e.getMessage());
+			response.sendRedirect("/lws/error.jsp");
+		} catch (IOException exc) {
+			exc.printStackTrace();
+		}
 	}
 
 	private String buildResponce(PeriodType periodType, Date date) {
