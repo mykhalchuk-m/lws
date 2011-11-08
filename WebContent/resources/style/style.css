@@ -1,8 +1,5 @@
 * {
-	margin: 0;
-	padding: 0;
-	font-family: verdana;
-	font-size: 12px;
+	margin: 0; padding: 0; font-family: verdana; font-size: 12px; color: #666;
 }
 
 a,a:link,a:active,a:visited {
@@ -13,37 +10,48 @@ ul {
 	list-style-type: none;
 }
 
-body {
+html {
 	height: 100%;
+}
+
+body {
+	height: 100%; width: 100%;
 }
 
 .wrapper {
-	width: 800px;
-	margin: 0 auto;
-	position: relative;
-	min-height: 100%;
-	height: auto !important;
-	height: 100%;
+	width: 800px; margin: 0 auto; min-height: 100%; height: auto !important; height: 100%;
+}
+
+.container {
+	position: relative; padding-bottom: 50px; height: 1%;
+}
+
+.content {
+	margin-left: 250px;
 }
 
 .body {
-	margin: 10px;
-	width: 230px;
-	overflow: hidden;
+	margin: 10px; width: 230px; overflow: hidden;
 }
 
 div.form-fild {
-	border-bottom: 1px solid #777;
-	padding: 3px 0;
+	margin: 10px 0;
 }
 
 div.form-fild select,div.form-fild input {
 	width: 50%;
 }
 
+div.form-fild input[type='submit'] {
+	width: auto; margin-left: 47%; padding: 0 2px 1px 2px; color: #000;
+}
+
+div.form-fild input[type='checkbox'] {
+	width: auto;
+}
+
 div.form-fild label {
-	float: left;
-	width: 47%;
+	float: left; width: 47%;
 }
 
 #message {
@@ -59,41 +67,62 @@ div.date {
 }
 
 div.date input {
-	width: 93px;
-	float: left;
+	width: 46%; float: left;
 }
 
 a.dp-choose-date {
-	margin-top: 0;
-	background: url(../img/calendar.png) no-repeat;
+	margin-top: 0; background: url(../img/calendar.png) no-repeat;
 }
 
 a.dp-choose-date.dp-disabled {
-	background-position: 0 -20px;
-	cursor: default;
+	background-position: 0 -20px; cursor: default;
 }
 
 .form {
 	overflow: hidden;
 }
-
+/*   footer style  */
 .hFooter {
-	clear: both;
-	height: 50px;
+	clear: both; height: 50px;
 }
 
 .footer {
-	height: 50px;
-	background: none repeat scroll 0 0 #F2F2F2;
-	clear: both;
-	line-height: 50px;
-	position: relative;
-	width: 800px;
-	margin: 0 auto;
+	height: 50px; background: none repeat scroll 0 0 #F2F2F2; line-height: 50px;
+	position: relative; width: 800px; margin: -50px auto 0;
 }
 
 .footer .copyright {
-	color: #333333;
-	float: left;
-	margin-left: 25px;
+	color: #333333; float: left; margin-left: 25px;
 }
+/*     end footer style      */
+
+/*   table style   */
+table.amount-data {
+	width: 100%; margin-bottom: 20px; border-collapse: collapse; border-spacing: 0; text-align: left;
+}
+
+table.amount-data .hidden {
+	display: none;
+}
+
+table.amount-data caption {
+	padding-bottom: 10px; text-align: left; font-weight: bold; font-size: 13px;
+}
+
+table.amount-data td,table.amount-data th {
+	border-bottom: 1px solid #EEE; vertical-align: middle; padding: 0 10px; with: 7%; height: 30px;
+}
+
+table.amount-data tr:hover {
+	background-color: #F9FCF5; 
+}
+
+table.balaces tr:hover {
+	cursor: pointer;
+}
+
+table.amount-data th {
+	background: #F2F9EA; white-space: normal; line-height: normal; padding-top: 7px;
+	padding-bottom: 3px; vertical-align: top;
+}
+/*   end table style   */

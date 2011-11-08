@@ -9,3 +9,9 @@ $(document).ready(function() {
 		});
 	}
 });
+
+$(document).ready(function() {
+	$(".amount-data tr").click(function(){
+		window.location = $(this).children("td.hidden a:first").get(0).href; 
+	});
+});
