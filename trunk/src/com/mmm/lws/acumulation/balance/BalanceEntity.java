@@ -10,6 +10,8 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -19,6 +21,7 @@ import com.mmm.lws.acumulation.costs.CostsEntity;
 
 @Entity
 @Table(name = "balance")
+//@NamedQueries({@NamedQuery(name="Balance.all", query="")})
 public class BalanceEntity implements Serializable {
 	private static final long serialVersionUID = 7051078210988387981L;
 
