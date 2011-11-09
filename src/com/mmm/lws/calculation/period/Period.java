@@ -16,7 +16,8 @@ public class Period {
 	private BalanceEntity balance;
 	private BalanceDao balanceDao;
 	private CostsDao costsDao;
-	
+	private PeriodType periodType;
+
 	public void setCostsDao(CostsDao costsDao) {
 		this.costsDao = costsDao;
 	}
@@ -25,17 +26,13 @@ public class Period {
 		this.balanceDao = balanceDao;
 	}
 	
-	public Period() {
-		Date date = new Date(System.currentTimeMillis());
-		init(date, PeriodType.DAY);
-	}
-	
 	public Period(BalanceDao balanceDao, Date date, PeriodType periodType) {
 		this.balanceDao = balanceDao;
-		init(date, periodType);
+		this.periodType = periodType;
+		init(date);
 	}
 	
-	public void init(Date date, PeriodType periodType) {
+	private void init(Date date) {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
 		int periodNumber = CalendarUtils.getPeriodNumber(calendar, periodType);
@@ -43,7 +40,7 @@ public class Period {
 				calendar.get(Calendar.YEAR));
 	}
 	
-	public BigDecimal calculateSpendedMoney(PeriodType periodType, Date date) {
+	public BigDecimal calculateSpendedMoney(Date date) {
 		Date startDate = CalendarUtils.getStartPeriodDate(periodType, date).getTime();
 		Date endDate = CalendarUtils.getEndPeriodDate(periodType, date).getTime();
 		List<CostsEntity> costs = costsDao.getCostsByPeriod(startDate, endDate);
