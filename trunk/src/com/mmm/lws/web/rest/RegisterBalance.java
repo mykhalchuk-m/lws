@@ -8,7 +8,6 @@ import java.util.Date;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.persistence.PersistenceException;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -61,7 +60,7 @@ public class RegisterBalance {
 					periodType));
 			balance.setPeriodYear(calendar.get(Calendar.YEAR));
 		} catch (ParseException e) {
-			redirectToError(e, response, request);
+			 redirectToError(e, response, request);
 			e.printStackTrace();
 		}
 		balance.setCreatedDate(new Date(System.currentTimeMillis()));
@@ -69,14 +68,13 @@ public class RegisterBalance {
 		balance.setPeriodType(periodType);
 		try {
 			balanceDao.persistBalance(balance);
-//			throw new PersistenceException("test exception");
-		} catch (PersistenceException e) {
-			redirectToError(e, response, request);
+		} catch (Exception e) {
+			return redirectToError(e, response, request);
 		}
 		String reqPage = context.getAttribute("reqPage").toString();
 		if (reqPage == null || reqPage == "") {
-			reqPage = "/lws/index.jsp";
-		}
+			reqPage = "/lws/rest/load/balances";
+		} 
 		try {
 			response.sendRedirect(reqPage);
 		} catch (IOException e) {
@@ -100,14 +98,26 @@ public class RegisterBalance {
 		return Response.status(200).entity(resp).build();
 	}
 
-	private void redirectToError(Exception e, HttpServletResponse response,
+	private Response redirectToError(Exception e, HttpServletResponse response,
 			HttpServletRequest request) {
 		try {
-			request.setAttribute("exception", e.getMessage());
+			StringBuilder sb = new StringBuilder(e.getCause().getMessage());
+			Throwable innerThr = e.getCause();
+			while ((innerThr = getInnerCause(innerThr)) != null) {
+				sb.append(innerThr.getMessage());
+				sb.append("<br/><br/>");
+			}
+			request.getSession(true).setAttribute("exception", sb.toString());
 			response.sendRedirect("/lws/error.jsp");
+			return Response.ok().build();
 		} catch (IOException exc) {
 			exc.printStackTrace();
 		}
+		return null;
+	}
+
+	private Throwable getInnerCause(Throwable t) {
+		return t.getCause();
 	}
 
 	private String buildResponce(PeriodType periodType, Date date) {

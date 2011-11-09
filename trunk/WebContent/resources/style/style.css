@@ -30,6 +30,27 @@ body {
 	margin-left: 250px;
 }
 
+.choice-period {
+	position: relative;
+}
+
+.choice-period-link {
+	background: url(../img/linkArrow.png) 100% 50% no-repeat; cursor: pointer; padding-right: 15px;
+}
+
+.all-periods {
+	display: none;
+	position: absolute;
+	top: 15px;	
+	border: 1px solid #EEE;
+	background-color: #fff;
+	padding-bottom: 3px;
+}
+
+.all-periods li {
+	padding: 1px 5px;
+}
+
 .body {
 	margin: 10px; width: 230px; overflow: hidden;
 }
@@ -87,8 +108,8 @@ a.dp-choose-date.dp-disabled {
 }
 
 .footer {
-	height: 50px; background: none repeat scroll 0 0 #F2F2F2; line-height: 50px;
-	position: relative; width: 800px; margin: -50px auto 0;
+	height: 50px; background: none repeat scroll 0 0 #F2F2F2; line-height: 50px; position: relative;
+	width: 800px; margin: -50px auto 0;
 }
 
 .footer .copyright {
@@ -114,7 +135,7 @@ table.amount-data td,table.amount-data th {
 }
 
 table.amount-data tr:hover {
-	background-color: #F9FCF5; 
+	background-color: #F9FCF5;
 }
 
 table.balaces tr:hover {

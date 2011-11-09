@@ -22,7 +22,8 @@ public class BalanceDao {
 	@PersistenceContext(name = "lws-core")
 	private EntityManager entityManager;
 
-	public void persistBalance(BalanceEntity balance) throws PersistenceException{
+	public void persistBalance(BalanceEntity balance)
+			throws PersistenceException {
 		entityManager.persist(balance);
 	}
 
@@ -35,12 +36,20 @@ public class BalanceDao {
 		query.setParameter("py", year);
 		List<?> listBe = query.getResultList();
 		if (listBe.size() > 0) {
-			return (BalanceEntity)listBe.get(0);
+			return (BalanceEntity) listBe.get(0);
 		} else {
 			return null;
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<BalanceEntity> getAllBalanceByPeriod(PeriodType periodType) {
+		Query query = entityManager
+				.createQuery("from BalanceEntity be where be.periodType=:pt order by be.periodYear desc");
+		query.setParameter("pt", periodType);
+		return (List<BalanceEntity>)query.getResultList();
+	}
+
 	public List<BalanceEntity> getAllBalances() {
 		return null;
 	}
