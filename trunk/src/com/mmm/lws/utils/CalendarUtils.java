@@ -24,6 +24,21 @@ public class CalendarUtils {
 		}
 		return calendar;
 	}
+	
+	public static Calendar getStartPeriodDate(PeriodType periodType, int periodNumber, int year) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(Calendar.YEAR, year);
+		if (periodType.equals(PeriodType.DAY)) {
+			calendar.set(Calendar.DAY_OF_YEAR, periodNumber);
+		} else if (periodType.equals(PeriodType.WEEK)) {
+			calendar.set(Calendar.WEEK_OF_YEAR, periodNumber);
+			calendar.set(Calendar.DAY_OF_WEEK, 1);
+		} else if (periodType.equals(PeriodType.MONTH)) {
+			calendar.set(Calendar.MONTH, periodNumber);
+			calendar.set(Calendar.DAY_OF_MONTH, 1);
+		}
+		return calendar;
+	}
 
 	public static Calendar getEndPeriodDate(PeriodType periodType, Date date) {
 		Calendar startDate = getStartPeriodDate(periodType, date);
@@ -35,6 +50,18 @@ public class CalendarUtils {
 		}
 		return endDare;
 	}
+	
+	public static Calendar getEndPeriodDate(PeriodType periodType, int periodNumber, int year) {
+		Calendar startDate = getStartPeriodDate(periodType, periodNumber, year);
+		Calendar endDare = startDate;
+		if (periodType.equals(PeriodType.WEEK)) {
+			endDare.set(Calendar.WEEK_OF_YEAR, startDate.get(Calendar.WEEK_OF_YEAR) + 1);
+		} else if (periodType.equals(PeriodType.MONTH)) {
+			endDare.set(Calendar.MONTH, startDate.get(Calendar.MONTH) + 1);
+		}
+		return endDare;
+	}
+	
 	
 	public static Date convertStringToDate(String strDate) throws ParseException {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -50,5 +77,5 @@ public class CalendarUtils {
 			return calendar.get(Calendar.MONTH);
 		}
 		return 0;
-	}	
+	}
 }

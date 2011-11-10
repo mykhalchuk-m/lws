@@ -30,7 +30,7 @@ public class LoadData {
 	private Week week;
 	@EJB
 	private Month month;
-	
+
 	@GET
 	@Path("/balances")
 	public Response loadBalances(@Context HttpServletResponse response,
@@ -46,8 +46,7 @@ public class LoadData {
 
 	@GET
 	@Path("/balances/{period}")
-	public Response loadBalanceByPeriod(
-			@PathParam("period") String periodType,
+	public Response loadBalanceByPeriod(@PathParam("period") String periodType,
 			@Context HttpServletResponse response,
 			@Context HttpServletRequest request) throws URISyntaxException {
 		PeriodType pt = PeriodType.valueOf(periodType);
@@ -62,14 +61,32 @@ public class LoadData {
 		return Response.ok().build();
 	}
 	
-	private IPeriod getBeanByPeriod(PeriodType periodType) {
-		if (periodType.equals(PeriodType.DAY)) {
-			return day;
-		} else if (periodType.equals(PeriodType.WEEK)){
-			return week;
-		} else if (periodType.equals(PeriodType.MONTH)) {
-			return month;
+	@GET
+	@Path("/balances/{year}/{period}/{perionNum}")
+	public Response loadBalanceByPeriod(@PathParam("period") String periodType,
+			@PathParam("perionNum") Integer perionNum,
+			@PathParam("year") Integer year,
+			@Context HttpServletResponse response,
+			@Context HttpServletRequest request) throws URISyntaxException {
+		PeriodType pt = PeriodType.valueOf(periodType);
+		IPeriod period = getBeanByPeriod(pt);
+		List<BalanceEntity> balances = period.getSubBalancesByScope(perionNum, year);
+		request.getSession().setAttribute("balances", balances);
+		try {
+			response.sendRedirect("/lws/balances.jsp");
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		return null;
+		return Response.ok().build();
+	}
+	private IPeriod getBeanByPeriod(PeriodType periodType) {
+		if (PeriodType.DAY.equals(periodType))
+			return day;
+		else if (PeriodType.WEEK.equals(periodType))
+			return week;
+		else if (PeriodType.MONTH.equals(periodType))
+			return month;
+		else
+			return day;
 	}
 }

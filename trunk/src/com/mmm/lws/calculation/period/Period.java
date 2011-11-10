@@ -32,6 +32,11 @@ public class Period {
 		init(date);
 	}
 	
+	public Period(BalanceDao balanceDao, PeriodType periodType) {
+		this.balanceDao = balanceDao;
+		this.periodType = periodType;
+	}
+	
 	private void init(Date date) {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
@@ -53,6 +58,20 @@ public class Period {
 	
 	public BalanceEntity getBalance() {
 		return balance;
+	}
+	
+	public List<BalanceEntity> getSubBalancesByScope(int periodNumber, int year) {
+		PeriodType childPeriod = (periodType.getChildPeriod() == null) ? periodType
+				: periodType.getChildPeriod();
+		Calendar startDate = CalendarUtils.getStartPeriodDate(periodType,
+				periodNumber, year);
+		int i = childPeriod.getPeriodNumber(startDate);
+		Calendar endDate = CalendarUtils.getEndPeriodDate(periodType,
+				periodNumber, year);
+		int j = childPeriod.getPeriodNumber(endDate);
+		return balanceDao.getAllBalanceByScope(childPeriod,
+				childPeriod.getPeriodNumber(startDate),
+				childPeriod.getPeriodNumber(endDate), year);
 	}
 	
 	@Override
