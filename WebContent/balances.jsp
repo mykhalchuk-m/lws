@@ -26,7 +26,6 @@
 						</c:forEach>
 					</ul>
 				</div>
-				<div>${sessionScope["balances"]}</div>
 				<table class="amount-data balaces">
 					<caption>Result for the last month:</caption>
 					<tr>
@@ -35,20 +34,18 @@
 						<th>Created Date</th>
 						<th>Period</th>
 					</tr>
-					<tr id="ss">
-						<td>125</td>
-						<td>87</td>
-						<td>12-10-2011</td>
-						<td>Week</td>
-						<td class="hidden"><a id="a" href="period.jsp"></a></td>
-					</tr>
-					<tr>
-						<td>55</td>
-						<td>10</td>
-						<td>30-10-2011</td>
-						<td>Day</td>
-						<td class="hidden"><a href="period.jsp"></a></td>
-					</tr>
+					<c:forEach items="${sessionScope['balances']}" var="balance">
+						<tr>
+							<td>${balance.amount}</td>
+							<td>${balance.amountLest}</td>
+							<td>${balance.createdDate}</td>
+							<td>${balance.numberOfPeriod}</td>
+							<c:if test="${balance.periodType.childPeriod != null}">
+								<td class="hidden"><a id="a"
+									href="/lws/rest/load/balances/${balance.periodYear}/${balance.periodType}/${balance.numberOfPeriod}"></a></td>
+							</c:if>
+						</tr>
+					</c:forEach>
 				</table>
 			</div>
 		</div>

@@ -50,8 +50,15 @@ public class BalanceDao {
 		return (List<BalanceEntity>)query.getResultList();
 	}
 
-	public List<BalanceEntity> getAllBalances() {
-		return null;
+	@SuppressWarnings("unchecked")
+	public List<BalanceEntity> getAllBalanceByScope(PeriodType periodType, int startPeriod, int endPeriod, int year) {
+		Query query = entityManager
+				.createQuery("from BalanceEntity be where be.periodType=:pt and be.periodYear=:py and be.numberOfPeriod>:sp and be.numberOfPeriod<:ep");
+		query.setParameter("pt", periodType);
+		query.setParameter("py", year);
+		query.setParameter("sp", startPeriod);
+		query.setParameter("ep", endPeriod);
+		return (List<BalanceEntity>)query.getResultList();
 	}
 
 }

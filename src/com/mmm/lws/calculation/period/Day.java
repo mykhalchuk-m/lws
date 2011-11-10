@@ -47,4 +47,10 @@ public class Day implements IPeriod {
 	public List<BalanceEntity> getBalanceByPeriod() {
 		return balanceDao.getAllBalanceByPeriod(PERIOD_TYPE);
 	}
+
+	@Override
+	public List<BalanceEntity> getSubBalancesByScope(int periodNumber, int year) {
+		period = new Period(balanceDao, PERIOD_TYPE);
+		return period.getSubBalancesByScope(periodNumber, year);
+	}
 }
