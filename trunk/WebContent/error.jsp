@@ -13,6 +13,9 @@
 		<div class="container">
 			<jsp:include page="menu.jsp" />
 			<div class="content">
+				<p>
+					${requestScope['t']}
+				</p>
 				<p>Cause some error:</p>
 				<div>
 					${sessionScope["exception"]}

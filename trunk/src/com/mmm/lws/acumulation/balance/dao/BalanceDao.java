@@ -1,5 +1,6 @@
 package com.mmm.lws.acumulation.balance.dao;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.ejb.LocalBean;
@@ -22,9 +23,15 @@ public class BalanceDao {
 	@PersistenceContext(name = "lws-core")
 	private EntityManager entityManager;
 
-	public void persistBalance(BalanceEntity balance)
+	public BigDecimal persistBalance(BalanceEntity balance)
 			throws PersistenceException {
-		entityManager.persist(balance);
+		BalanceEntity canExisted = getBalance(balance.getPeriodType(),
+				balance.getNumberOfPeriod(), balance.getPeriodYear());
+		if (canExisted == null) {
+			entityManager.persist(balance);
+			return null;
+		} 
+		return canExisted.getAmount();
 	}
 
 	public BalanceEntity getBalance(PeriodType periodType, int periodNumber,
