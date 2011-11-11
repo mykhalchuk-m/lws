@@ -22,7 +22,7 @@
 					<a class="choice-period-link">MONTH</a>
 					<ul class="all-periods">
 						<c:forEach items="${pts}" var="pt">
-						<li><a href="/lws/rest/load/balances/${pt}">${pt}</a></li>
+						<li><a href="/lws/lb?p=${pt}">${pt}</a></li>
 						</c:forEach>
 					</ul>
 				</div>
@@ -34,7 +34,7 @@
 						<th>Created Date</th>
 						<th>Period</th>
 					</tr>
-					<c:forEach items="${sessionScope['balances']}" var="balance">
+					<c:forEach items="${requestScope['balances']}" var="balance">
 						<tr>
 							<td>${balance.amount}</td>
 							<td>${balance.amountLest}</td>

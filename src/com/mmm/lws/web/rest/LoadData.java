@@ -8,9 +8,11 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 
@@ -33,31 +35,16 @@ public class LoadData {
 
 	@GET
 	@Path("/balances")
-	public Response loadBalances(@Context HttpServletResponse response,
-			@Context HttpServletRequest request) {
-
-		try {
-			response.sendRedirect("/lws/balances.jsp");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	@GET
-	@Path("/balances/{period}")
-	public Response loadBalanceByPeriod(@PathParam("period") String periodType,
+	public Response loadBalanceByPeriod(
+			@DefaultValue("MONTH") @QueryParam("p") String periodType,
 			@Context HttpServletResponse response,
 			@Context HttpServletRequest request) throws URISyntaxException {
 		PeriodType pt = PeriodType.valueOf(periodType);
 		IPeriod period = getBeanByPeriod(pt);
 		List<BalanceEntity> balances = period.getBalanceByPeriod();
 		request.getSession().setAttribute("balances", balances);
-		try {
-			response.sendRedirect("/lws/balances.jsp");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		request.setAttribute("t", "test");
+		goToRedirect("/lws/balances.jsp", response, request);
 		return Response.ok().build();
 	}
 	
@@ -88,5 +75,14 @@ public class LoadData {
 			return month;
 		else
 			return day;
+	}
+	private void goToRedirect(String uri, HttpServletResponse response,
+			HttpServletRequest request) {
+		try {
+			response.sendRedirect(uri);
+		} catch (IOException e) {
+//			redirectToError(e, response, request);
+			e.printStackTrace();
+		}
 	}
 }

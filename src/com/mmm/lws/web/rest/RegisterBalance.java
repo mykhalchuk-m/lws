@@ -18,6 +18,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 
 import com.mmm.lws.acumulation.balance.BalanceEntity;
 import com.mmm.lws.acumulation.balance.PeriodType;
@@ -49,7 +50,7 @@ public class RegisterBalance {
 			@FormParam("pt") PeriodType periodType,
 			@FormParam("sd") String date,
 			@Context HttpServletResponse response,
-			@Context HttpServletRequest request) {
+			@Context HttpServletRequest request, @Context UriInfo uriInfo) {
 		BalanceEntity balance = new BalanceEntity();
 		Date pDate;
 		try {
@@ -60,14 +61,17 @@ public class RegisterBalance {
 					periodType));
 			balance.setPeriodYear(calendar.get(Calendar.YEAR));
 		} catch (ParseException e) {
-			 redirectToError(e, response, request);
+			redirectToError(e, response, request);
 			e.printStackTrace();
 		}
 		balance.setCreatedDate(new Date(System.currentTimeMillis()));
 		balance.setAmount(amount);
 		balance.setPeriodType(periodType);
 		try {
-			balanceDao.persistBalance(balance);
+			BigDecimal result = balanceDao.persistBalance(balance);
+			if (result != null) {
+				
+			}
 		} catch (Exception e) {
 			return redirectToError(e, response, request);
 		}
@@ -75,11 +79,7 @@ public class RegisterBalance {
 		if (reqPage == null || reqPage == "") {
 			reqPage = "/lws/rest/load/balances";
 		} 
-		try {
-			response.sendRedirect(reqPage);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		goToRedirect(reqPage, response, request);
 		return Response.ok().build();
 	}
 
@@ -116,6 +116,16 @@ public class RegisterBalance {
 		return null;
 	}
 
+	private void goToRedirect(String uri, HttpServletResponse response,
+			HttpServletRequest request) {
+		try {
+			response.sendRedirect(uri);
+		} catch (IOException e) {
+			redirectToError(e, response, request);
+			e.printStackTrace();
+		}
+	}
+	
 	private Throwable getInnerCause(Throwable t) {
 		return t.getCause();
 	}

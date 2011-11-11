@@ -23,7 +23,7 @@
 	<jsp:include page="header.jsp"/>
 		<div class="container">
 		<jsp:include page="menu.jsp"/>
-		<form method="post" action="/lws/rest/balance/reg" class="form">
+		<form id="" method="post" action="/lws/rb" class="form">
 			<div class="form-fild">
 				<label for="pt">Period</label> <select name="pt">
 					<c:forEach items="${pts}" var="pt">
